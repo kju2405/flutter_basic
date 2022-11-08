@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dice.dart';
+import 'dice.dart'; //dice page import
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
+  //StatefulWidget은 StatefulWidget(immutable), State(mutable)로 이루어져있음.
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -42,75 +43,83 @@ class _LogInState extends State<LogIn> {
           IconButton(icon: Icon(Icons.search), onPressed: () {})
         ],
       ),
-      body: SingleChildScrollView(
-        //키보드가 올라올때 키보드에 의해서 화면이 가려지는걸 방지.
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.only(top: 50)),
-            Center(
-              child: Image(
-                image: AssetImage('image/chef.gif'),
-                width: 170.0,
-                height: 190.0,
-              ),
-            ),
-            Form(
-                child: Theme(
-              data: ThemeData(
-                  primaryColor: Colors.teal,
-                  inputDecorationTheme: InputDecorationTheme(
-                      labelStyle:
-                          TextStyle(color: Colors.teal, fontSize: 15.0))),
-              child: Container(
-                padding: EdgeInsets.all(40.0),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: controller, //controller와 TextField연결.
-                      decoration: InputDecoration(labelText: 'Enter "dice"'),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    TextField(
-                      controller: controller2,
-                      decoration: InputDecoration(labelText: 'Enter Password'),
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                    ),
-                    SizedBox(
-                      height: 40.0,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (controller.text == 'dice' &&
-                            controller2.text == '1234') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) => Dice()));
-                        } else if (controller.text == 'dice' &&
-                            controller2.text != '1234') {
-                          showSnackBar2(context);
-                        } else if (controller.text != 'dice' &&
-                            controller2.text == '1234') {
-                          showSnackBar3(context);
-                        } else {
-                          showSnackBar(context);
-                        }
-                      },
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: 35.0,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orangeAccent,
-                          minimumSize: Size(100.0, 50.0)),
-                    )
-                  ],
+      body: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).unfocus(); //이를 통해서 FocusNode를 찾을 수 있고, unfocus()를 통해서 포커스를 해제할 수 있음.
+        },
+        child: SingleChildScrollView(
+          //키보드가 올라올때 키보드에 의해서 화면이 가려지는걸 방지.
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.only(top: 50)),
+              Center(
+                child: Image(
+                  //Image 삽입
+                  image: AssetImage('image/chef.gif'),
+                  width: 170.0,
+                  height: 190.0,
                 ),
               ),
-            ))
-          ],
+              Form(
+                  child: Theme(
+                data: ThemeData(
+                    primaryColor: Colors.teal,
+                    inputDecorationTheme: InputDecorationTheme(
+                        labelStyle:
+                            TextStyle(color: Colors.teal, fontSize: 15.0))),
+                child: Container(
+                  padding: EdgeInsets.all(40.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: controller, //controller와 TextField연결.
+                        decoration: InputDecoration(labelText: 'Enter "dice"'),
+                        keyboardType:
+                            TextInputType.emailAddress, //keyboard에 @가 있음.
+                        autofocus: true,    //자동으로 focus가 맞춰짐.(자동으로 keyboard가 올라옴)
+                      ),
+                      TextField(
+                        controller: controller2,
+                        decoration: InputDecoration(labelText: 'Enter Password'),
+                        keyboardType: TextInputType.text,
+                        obscureText: true, //비밀번호처럼 ***로 표시됨.
+                      ),
+                      SizedBox(
+                        height: 40.0,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (controller.text == 'dice' &&
+                              controller2.text == '1234') {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) => Dice()));
+                          } else if (controller.text == 'dice' &&
+                              controller2.text != '1234') {
+                            showSnackBar2(context);
+                          } else if (controller.text != 'dice' &&
+                              controller2.text == '1234') {
+                            showSnackBar3(context);
+                          } else {
+                            showSnackBar(context);
+                          }
+                        },
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 35.0,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orangeAccent,
+                            minimumSize: Size(100.0, 50.0)),
+                      )
+                    ],
+                  ),
+                ),
+              ))
+            ],
+          ),
         ),
       ),
     );
@@ -168,4 +177,3 @@ void showSnackBar4(BuildContext context) {
     ),
   );
 }
-
